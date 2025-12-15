@@ -1,9 +1,9 @@
 import time
 from models.scholarComputation import ScholarComputation as sc
 
-def timed(label, func, *args):
+def timed(label, func, *args, **kwargs):
     start = time.perf_counter()
-    result = func(*args)
+    result = func(*args, **kwargs)
     end = time.perf_counter()
     print(f"{label}: {(end - start):.6f} seconds")
     return result
@@ -27,7 +27,6 @@ if __name__ == "__main__":
     ]
 
     query = "tf-idf document ranking"
-
     compute = sc(language="en")
 
     # ---------------- Preprocessing ----------------
@@ -41,10 +40,6 @@ if __name__ == "__main__":
     lemmatized_query = timed("EN Query lemmatization", compute.lemmatization, stemmed_query)
     clean_query = timed("EN Query stopword removal", compute.stopword_removal, lemmatized_query)
 
-    print("\nEN Preprocessed Documents:")
-    for i, d in enumerate(clean_docs):
-        print(f"{i+1}. {d}")
-
     # ---------------- TF-IDF ----------------
     tfidf_docs = timed("EN TF-IDF training", compute.train_tfidf_weighting, clean_docs)
     tfidf_query = timed(
@@ -53,7 +48,16 @@ if __name__ == "__main__":
         [clean_query]
     )
 
-    print("\nTop EN Words (TF-IDF):")
+    # ---------------- Top Words ----------------
+    timed(
+        "EN Top words (mean)",
+        compute.set_vectorizer_vocabulary,
+        tfidf_docs,
+        "mean",
+        10
+    )
+
+    print("\nTop EN Words (TF-IDF Mean):")
     for word, score in compute.top_word:
         print(f"{word:20s} {score:.6f}")
 
@@ -83,7 +87,6 @@ if __name__ == "__main__":
     ]
 
     query = "tf-idf pencarian dokumen"
-
     compute = sc(language="id")
 
     # ---------------- Preprocessing ----------------
@@ -97,10 +100,6 @@ if __name__ == "__main__":
     lemmatized_query = timed("ID Query lemmatization", compute.lemmatization, stemmed_query)
     clean_query = timed("ID Query stopword removal", compute.stopword_removal, lemmatized_query)
 
-    print("\nID Preprocessed Documents:")
-    for i, d in enumerate(clean_docs):
-        print(f"{i+1}. {d}")
-
     # ---------------- TF-IDF ----------------
     tfidf_docs = timed("ID TF-IDF training", compute.train_tfidf_weighting, clean_docs)
     tfidf_query = timed(
@@ -109,7 +108,16 @@ if __name__ == "__main__":
         [clean_query]
     )
 
-    print("\nTop ID Words (TF-IDF):")
+    # ---------------- Top Words ----------------
+    timed(
+        "ID Top words (sum)",
+        compute.set_vectorizer_vocabulary,
+        tfidf_docs,
+        "sum",
+        10
+    )
+
+    print("\nTop ID Words (TF-IDF Sum):")
     for word, score in compute.top_word:
         print(f"{word:20s} {score:.6f}")
 
