@@ -43,8 +43,8 @@ By inspecting its HTML, we can identify how user input is submitted to the searc
 
 | Component      | Screenshot                   |
 | -------------- | ---------------------------- |
-| Search textbox | ![Textbox Input](txtBox.png) |
-| Submit button  | ![Button Input](btn.png)     |
+| Search textbox | ![Textbox Input](image/txtBox.png) |
+| Submit button  | ![Button Input](image/btn.png)     |
 
 This structure shows that the query term is submitted via an HTTP **GET** request to `/scholar`, with the search keyword passed as a query parameter named `q`.
 
@@ -157,9 +157,9 @@ This div serves as the main container for article information such as title, aut
 
 | Component              | Screenshot                           |
 | ---------------------- | ------------------------------------ |
-| Result title           | ![Results' Title](image.png)         |
-| Author information     | ![Results' Author](image-1.png)      |
-| Description / abstract | ![Results' Description](image-2.png) |
+| Result title           | ![Results' Title](image/title.png)         |
+| Author information     | ![Results' Author](image/author.png)      |
+| Description / abstract | ![Results' Description](image/description.png) |
 
 ## 5. Key Extraction Guidelines
 
